@@ -61,15 +61,12 @@ std::vector<MidiEvent> PatternFetcher::jsonToMidi(
     juce::var& json
 ){
     std::vector<MidiEvent> midiEvents;
-    logger.write("inside jsonToMid");
-    logger.write("JSON = " + juce::JSON::toString(json));
-
     auto* root =
         json.getDynamicObject();
 
     if (root == nullptr)
     {
-        logger.write("root == nullptr");
+        logger.write("root == nullptr -- ensure json file has property 'events': [...]");
         return midiEvents;
     }
 
@@ -78,17 +75,16 @@ std::vector<MidiEvent> PatternFetcher::jsonToMidi(
 
     if (!eventsVar.isArray())
     {
-        logger.write("!eventsVar.isARray()");
         return midiEvents;
     }
-    logger.write("Before auto events");
+
 
     auto* events =
         eventsVar.getArray();
 
     for (auto& eventVar : *events)
     {
-        logger.write("Inside for events");
+
         auto* event =
             eventVar.getDynamicObject();
 
