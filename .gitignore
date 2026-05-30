@@ -1,0 +1,5 @@
+.venv
+.DS_Store
+Builds/
+debug.log
+JuceLibraryCode/

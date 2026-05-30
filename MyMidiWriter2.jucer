@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="uq7dYc" name="MyMidiWriter2" projectType="audioplug" useAppConfig="0"
+              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" pluginCharacteristicsValue="pluginIsMidiEffectPlugin">
+  <MAINGROUP id="sYUSgv" name="MyMidiWriter2">
+    <GROUP id="{1DB81152-03D4-19E9-13AC-358FD8CFB8A1}" name="Source">
+      <FILE id="BHm2R0" name="MyLogger.cpp" compile="1" resource="0" file="Source/MyLogger.cpp"/>
+      <FILE id="V2Fb5c" name="MyLogger.h" compile="0" resource="0" file="Source/MyLogger.h"/>
+      <FILE id="PXQXfR" name="PluginProcessor.cpp" compile="1" resource="0"
+            file="Source/PluginProcessor.cpp"/>
+      <FILE id="uItO2e" name="PluginProcessor.h" compile="0" resource="0"
+            file="Source/PluginProcessor.h"/>
+      <FILE id="iVZi5A" name="PatternOptions.h" compile="0" resource="0"
+            file="Source/PatternOptions.h"/>
+      <FILE id="adomWe" name="MidiWriter.h" compile="0" resource="0" file="Source/MidiWriter.h"/>
+      <FILE id="wEJul0" name="PatternOptions.cpp" compile="1" resource="0"
+            file="Source/PatternOptions.cpp"/>
+      <FILE id="PpXxJC" name="PatternFetcher.h" compile="0" resource="0"
+            file="Source/PatternFetcher.h"/>
+      <FILE id="v49aFA" name="MidiWriter.cpp" compile="1" resource="0" file="Source/MidiWriter.cpp"/>
+      <FILE id="tZirRL" name="PatternFetcher.cpp" compile="1" resource="0"
+            file="Source/PatternFetcher.cpp"/>
+      <FILE id="hHvs5u" name="PluginEditor.cpp" compile="1" resource="0"
+            file="Source/PluginEditor.cpp"/>
+      <FILE id="oAvRXi" name="MidiEvent.h" compile="0" resource="0" file="Source/MidiEvent.h"/>
+      <FILE id="EySkS3" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+    </GROUP>
+  </MAINGROUP>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"
+            useGlobalPath="1"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_processors_headless" showAllCode="1" useLocalCopy="0"
+            useGlobalPath="1"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+  </MODULES>
+  <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="MyMidiWriter2"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="MyMidiWriter2"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_audio_basics" path="../../../sandbox/dsp/plugins/tutorial/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../../sandbox/dsp/plugins/tutorial/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../../sandbox/dsp/plugins/tutorial/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../../../sandbox/dsp/plugins/tutorial/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../../sandbox/dsp/plugins/tutorial/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors_headless" path="../../../sandbox/dsp/plugins/tutorial/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../../sandbox/dsp/plugins/tutorial/JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../../sandbox/dsp/plugins/tutorial/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../sandbox/dsp/plugins/tutorial/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../sandbox/dsp/plugins/tutorial/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../sandbox/dsp/plugins/tutorial/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../sandbox/dsp/plugins/tutorial/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../sandbox/dsp/plugins/tutorial/JUCE/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+  </EXPORTFORMATS>
+</JUCERPROJECT>
