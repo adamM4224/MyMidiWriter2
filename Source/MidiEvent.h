@@ -53,6 +53,8 @@ struct MidiEvent
             + ", channel=" + juce::String(channel)
             + ", note=" + juce::String(note)
             + ", velocity=" + juce::String(velocity)
-            + ", duration=" + juce::String(duration);
+            + ", duration=" + juce::String(duration)
+            + ", controller=" + juce::String(controller)
+            + ", value=" + juce::String(value);
     }
 };
