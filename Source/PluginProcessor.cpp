@@ -22,9 +22,10 @@ MyMidiWriter2AudioProcessor::MyMidiWriter2AudioProcessor()
                        )
 #endif
 {
-    logger.write("PLUGINPROCESSOR --> init()");
 
-
+    // instantiate here
+    patternID = 1;          // default pattern
+    midiWriter.setPattern(patternID);
 }
 
 MyMidiWriter2AudioProcessor::~MyMidiWriter2AudioProcessor()
@@ -212,31 +213,56 @@ bool MyMidiWriter2AudioProcessor::hasEditor() const
     return true; // (change this to false if you choose to not supply an editor)
 }
 
+void MyMidiWriter2AudioProcessor::getStateInformation (juce::MemoryBlock& destData)
+{
+    juce::MemoryOutputStream stream(destData, false);
+
+    stream.writeInt(patternID);
+}
+
+// NOTE TO SELF: setState gets the state - getState sets the state. No joke.
+void MyMidiWriter2AudioProcessor::setStateInformation (const void* data, int sizeInBytes)
+{
+    juce::MemoryInputStream stream(data,
+                                   static_cast<size_t>(sizeInBytes),
+                                   false);
+
+    patternID = stream.readInt();
+
+    midiWriter.setPattern(patternID);
+}
 juce::AudioProcessorEditor* MyMidiWriter2AudioProcessor::createEditor()
 {
     return new MyMidiWriter2AudioProcessorEditor (*this);
 }
 
-//==============================================================================
-void MyMidiWriter2AudioProcessor::getStateInformation (juce::MemoryBlock& destData)
-{
-    // You should use this method to store your parameters in the memory block.
-    // You could do that either as raw data, or use the XML or ValueTree classes
-    // as intermediaries to make it easy to save and load complex data.
-}
 
-void MyMidiWriter2AudioProcessor::setStateInformation (const void* data, int sizeInBytes)
-{
-    // You should use this method to restore your parameters from this memory block,
-    // whose contents will have been created by the getStateInformation() call.
-}
 
 
 
 // MY OVERRIDES 
-void MyMidiWriter2AudioProcessor::setPattern(int id) {
+// void MyMidiWriter2AudioProcessor::setPattern(int id)
+// {
+//     patternID = id;
+
+//     midiWriter.setPattern(patternID);
+
+//     juce::DynamicObject::Ptr obj = new juce::DynamicObject();
+//     obj->setProperty("selectedPattern", patternID);
+
+//     history.save(juce::var(obj));
+// }
+
+void MyMidiWriter2AudioProcessor::setPattern(int id)
+{
     patternID = id;
+
     midiWriter.setPattern(patternID);
+
+    juce::DynamicObject::Ptr obj = new juce::DynamicObject();
+    obj->setProperty("selectedPattern", patternID);
+
+
 }
 
 void MyMidiWriter2AudioProcessor::reload() {
@@ -247,12 +273,17 @@ void MyMidiWriter2AudioProcessor::reload() {
 
 
 
-
 //==============================================================================
 // This creates new instances of the plugin..
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new MyMidiWriter2AudioProcessor();
+}
+
+
+int MyMidiWriter2AudioProcessor::getPattern() const
+{
+    return patternID;
 }
 
 

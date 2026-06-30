@@ -11,6 +11,7 @@
 #include <JuceHeader.h>
 #include "MyLogger.h"
 #include "MidiWriter.h"
+
 //==============================================================================
 /**
 */
@@ -58,11 +59,12 @@ public:
     // my functions 
     void setPattern(int newPatternID);
     void reload();
+    int getPattern() const;
 
 
 
 private:
-    int patternID;
+    int patternID = 1;
     MyLogger logger { "/Users/adamconn/dsp/plugins/MyMidiWriter2/debug.log" };
     MidiWriter midiWriter;
 

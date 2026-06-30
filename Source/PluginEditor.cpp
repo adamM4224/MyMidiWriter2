@@ -11,27 +11,31 @@
 
 //==============================================================================
 MyMidiWriter2AudioProcessorEditor::MyMidiWriter2AudioProcessorEditor (MyMidiWriter2AudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p)
+    : AudioProcessorEditor(&p), audioProcessor(p)
 {
-    // Make sure that before the constructor has finished, you've set the
-    // editor's size to whatever you need it to be.
-    setSize (400, 300);
+    setSize(400, 300);
+
     DBG("INSIDE PLUGIN EDITOR");
 
-        // add patterns to choose from
-    for(const auto& group : patternOptions.groups) {
+    for (const auto& group : patternOptions.groups)
+    {
         patternSelect.addSectionHeading(group.name);
-        for(const auto& option : group.options) {
+
+        for (const auto& option : group.options)
             patternSelect.addItem(option.name, option.id);
-        }
     }
-    // DebugLogger::getInstance().log("adding pattern select");
-    patternSelect.addListener( this );
+
+    patternSelect.addListener(this);
     addAndMakeVisible(patternSelect);
 
-        // DebugLogger::getInstance().log("adding reload buttong");
+    // Restore the current selection from the processor
+    patternSelect.setSelectedId(audioProcessor.getPattern(),
+                                juce::dontSendNotification);
+
     addAndMakeVisible(reloadButton);
-    reloadButton.onClick = [this] {
+
+    reloadButton.onClick = [this]
+    {
         audioProcessor.reload();
     };
 }
