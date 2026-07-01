@@ -72,9 +72,11 @@ void MidiWriter::process(
 }
 
 
-void MidiWriter::setPattern(int newPatternID) {
-    patternID = newPatternID;
-    events = fetcher.getPattern(patternID);
+void MidiWriter::setPattern(int _patternID ) {
+    // patternPath = newPatternPath;
+    patternID = _patternID;
+    events = fetcher.getPattern(patternPath);
+
 
 
     
@@ -82,7 +84,7 @@ void MidiWriter::setPattern(int newPatternID) {
 }
 
 void MidiWriter::reload() {
-    events = fetcher.getPattern(patternID);
+    events = fetcher.getPattern(patternPath);
 
 }
 

@@ -12,33 +12,18 @@ const std::vector<PatternInfo>& PatternFetcher::getAvailablePatterns() const
 {
     return patterns;
 }
-std::vector<MidiEvent> PatternFetcher::getPattern(int patternID)
+std::vector<MidiEvent> PatternFetcher::getPattern(const juce::String& patternPath)
 {
-    juce::File file;
-
-
-    for (const auto& pattern : patterns)
-    {
-        if (pattern.id == patternID)
-        {
-            file = pattern.file;
-            break;
-        }
-    }
-
-
-    if (!file.existsAsFile())
-    {
-        logger.write("Pattern file not found");
+    juce::File file(patternPath);
+    if(!file.existsAsFile()) {
         return {};
     }
 
-
     auto contents = file.loadFileAsString();
-
     auto json = juce::JSON::parse(contents);
 
     return jsonToMidi(json);
+
 }
 
 
@@ -167,6 +152,7 @@ void PatternFetcher::setDirectory(const juce::File& directory)
 
 
     int id = 1;
+    juce::String defaultFileName = "";
 
     for (auto& file : files)
     {
@@ -175,6 +161,7 @@ void PatternFetcher::setDirectory(const juce::File& directory)
         info.id = id++;
         info.name = file.getFileNameWithoutExtension();
         info.file = file;
+        info.fullPath = file.getFullPathName();
 
         patterns.push_back(info);
     }

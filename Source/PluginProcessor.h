@@ -70,6 +70,7 @@ private:
     MyLogger logger { "/Users/adamconn/dsp/plugins/MyMidiWriter2/debug.log" };
     PatternFetcher patternFetcher;
     MidiWriter midiWriter;
+    juce::String patternPath;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MyMidiWriter2AudioProcessor)

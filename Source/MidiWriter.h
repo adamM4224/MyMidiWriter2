@@ -12,13 +12,15 @@ class MidiWriter {
             juce::MidiBuffer& midiMessage
         );
         void emitEvent(const MidiEvent& event, juce::MidiBuffer& midiMessages);
-        void setPattern(int newPatternID);
+        void setPattern(int patternID);
+
         void reload();
         void write(juce::String message);
 
     private:
         int lastBeat = -1;
         int patternID = -1;
+        juce::String patternPath;
         double lastPPQ = 0.0;
         bool seen = false;
         

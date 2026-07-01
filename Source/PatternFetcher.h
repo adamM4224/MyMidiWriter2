@@ -9,12 +9,13 @@ struct PatternInfo {
     int id;
     juce::String name;
     juce::File file;
+    juce::String fullPath;
 };
 
 class PatternFetcher {
     public:
         PatternFetcher();
-        std::vector<MidiEvent> getPattern(int patternID);
+        std::vector<MidiEvent> getPattern(const juce::String& patternPath);
         void setDirectory(const juce::File& directory);
         const std::vector<PatternInfo>& getAvailablePatterns() const;
     private:
