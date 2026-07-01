@@ -17,12 +17,9 @@ MyMidiWriter2AudioProcessorEditor::MyMidiWriter2AudioProcessorEditor (MyMidiWrit
 
     DBG("INSIDE PLUGIN EDITOR");
 
-    for (const auto& group : patternOptions.groups)
+    for (const auto& pattern : audioProcessor.getPatterns())
     {
-        patternSelect.addSectionHeading(group.name);
-
-        for (const auto& option : group.options)
-            patternSelect.addItem(option.name, option.id);
+        patternSelect.addItem(pattern.name, pattern.id);
     }
 
     patternSelect.addListener(this);

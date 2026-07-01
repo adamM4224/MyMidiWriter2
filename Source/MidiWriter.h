@@ -6,7 +6,7 @@
 #include "MyLogger.h"
 class MidiWriter {
     public:
-        MidiWriter();
+        MidiWriter(PatternFetcher& fetcher);
         void process(
             juce::AudioPlayHead* playHead, 
             juce::MidiBuffer& midiMessage
@@ -15,6 +15,7 @@ class MidiWriter {
         void setPattern(int newPatternID);
         void reload();
         void write(juce::String message);
+
     private:
         int lastBeat = -1;
         int patternID = -1;
@@ -23,7 +24,7 @@ class MidiWriter {
         
 
         std::vector<MidiEvent> events;
-        PatternFetcher fetcher;
+        PatternFetcher& fetcher;
         int eventCount = -1;
         MyLogger logger { "/Users/adamconn/dsp/plugins/MyMidiWriter2/debug.log" };
 

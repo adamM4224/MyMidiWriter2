@@ -1,7 +1,9 @@
 
 #include "MidiWriter.h"
 
-MidiWriter::MidiWriter() {
+MidiWriter::MidiWriter(PatternFetcher& f)
+    : fetcher(f)
+{
 
 }
 void MidiWriter::process(
@@ -73,20 +75,15 @@ void MidiWriter::process(
 void MidiWriter::setPattern(int newPatternID) {
     patternID = newPatternID;
     events = fetcher.getPattern(patternID);
+
+
     
-    // logger.write("Set events");
-    // for(const auto& event : events) {
-    //     logger.write(event.toString());
-    // }
 
 }
 
 void MidiWriter::reload() {
-    // logger.write("MIDI WRITER -> RELOAD");
     events = fetcher.getPattern(patternID);
-    //     for(const auto& event : events) {
-    //     logger.write(event.toString());
-    // }
+
 }
 
 void MidiWriter::emitEvent(

@@ -19,13 +19,17 @@ MyMidiWriter2AudioProcessor::MyMidiWriter2AudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ),
+
+                       midiWriter(patternFetcher)
 #endif
 {
 
     // instantiate here
     patternID = 1;          // default pattern
     midiWriter.setPattern(patternID);
+    juce::File patternFolder("/Users/adamconn/dsp/songs/songA/tracks");
+    patternFetcher.setDirectory(patternFolder);
 }
 
 MyMidiWriter2AudioProcessor::~MyMidiWriter2AudioProcessor()
@@ -286,5 +290,8 @@ int MyMidiWriter2AudioProcessor::getPattern() const
     return patternID;
 }
 
-
+const std::vector<PatternInfo>& MyMidiWriter2AudioProcessor::getPatterns() const
+{
+    return patternFetcher.getAvailablePatterns();
+}
 

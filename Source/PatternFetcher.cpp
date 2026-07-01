@@ -1,3 +1,4 @@
+
 #include "PatternFetcher.h"
 
 PatternFetcher::PatternFetcher() {
@@ -7,53 +8,37 @@ PatternFetcher::PatternFetcher() {
 
 }
 
+const std::vector<PatternInfo>& PatternFetcher::getAvailablePatterns() const
+{
+    return patterns;
+}
 std::vector<MidiEvent> PatternFetcher::getPattern(int patternID)
 {
-    juce::String filename;
-    juce::String patternIDString = (juce::String) patternID;
+    juce::File file;
 
 
-    for (const auto& group : options.groups)
+    for (const auto& pattern : patterns)
     {
-        for (const auto& option : group.options)
+        if (pattern.id == patternID)
         {
-            if (option.id == patternID)
-            {
-                filename = option.filename;
-                break;
-            }
-        }
-
-        if (filename.isNotEmpty())
+            file = pattern.file;
             break;
+        }
     }
 
-    if (filename.isEmpty())
-        return {};
-
-    // keep your existing path handling
-    filename = filename.replace(
-        "~",
-        juce::File::getSpecialLocation(
-            juce::File::userHomeDirectory
-        ).getFullPathName()
-    );
-
-    juce::File file(filename);
 
     if (!file.existsAsFile())
     {
-        logger.write(filename + " DOES NOT EXIST...crashing");
+        logger.write("Pattern file not found");
         return {};
     }
 
-    juce::String contents = file.loadFileAsString();
 
+    auto contents = file.loadFileAsString();
 
+    auto json = juce::JSON::parse(contents);
 
-    juce::var parsed = juce::JSON::parse(contents);
-
-    return jsonToMidi(parsed);
+    return jsonToMidi(json);
 }
 
 
@@ -158,4 +143,39 @@ std::vector<MidiEvent> PatternFetcher::jsonToMidi(
     }
 
     return midiEvents;
+}
+
+
+void PatternFetcher::setDirectory(const juce::File& directory)
+{
+    patternDirectory = directory;
+
+    patterns.clear();
+
+    if (!patternDirectory.isDirectory())
+    {
+        logger.write("Pattern directory does not exist");
+        return;
+    }
+
+
+    auto files = patternDirectory.findChildFiles(
+        juce::File::findFiles,
+        false,
+        "*.json"
+    );
+
+
+    int id = 1;
+
+    for (auto& file : files)
+    {
+        PatternInfo info;
+
+        info.id = id++;
+        info.name = file.getFileNameWithoutExtension();
+        info.file = file;
+
+        patterns.push_back(info);
+    }
 }

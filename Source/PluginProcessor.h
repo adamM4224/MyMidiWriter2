@@ -11,6 +11,7 @@
 #include <JuceHeader.h>
 #include "MyLogger.h"
 #include "MidiWriter.h"
+#include "PatternFetcher.h"
 
 //==============================================================================
 /**
@@ -60,14 +61,15 @@ public:
     void setPattern(int newPatternID);
     void reload();
     int getPattern() const;
+    const std::vector<PatternInfo>& getPatterns() const;
 
 
 
 private:
     int patternID = 1;
     MyLogger logger { "/Users/adamconn/dsp/plugins/MyMidiWriter2/debug.log" };
+    PatternFetcher patternFetcher;
     MidiWriter midiWriter;
-
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MyMidiWriter2AudioProcessor)
