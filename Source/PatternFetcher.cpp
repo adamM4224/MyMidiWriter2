@@ -121,7 +121,7 @@ std::vector<MidiEvent> PatternFetcher::jsonToMidi(
                     : 0;
 
         }
-        logger.write(midiEvent.toString());
+
         midiEvents.push_back(
             midiEvent
         );

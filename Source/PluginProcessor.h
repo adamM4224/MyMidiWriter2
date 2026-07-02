@@ -58,7 +58,7 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
     // my functions 
-    void setPattern(int newPatternID);
+    void setPattern(int newPatternID, juce::String fullFilePath);
     void reload();
     int getPattern() const;
     const std::vector<PatternInfo>& getPatterns() const;

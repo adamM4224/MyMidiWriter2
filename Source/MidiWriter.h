@@ -12,7 +12,7 @@ class MidiWriter {
             juce::MidiBuffer& midiMessage
         );
         void emitEvent(const MidiEvent& event, juce::MidiBuffer& midiMessages);
-        void setPattern(int patternID);
+        void setPattern(juce::String fullFilePath);
 
         void reload();
         void write(juce::String message);

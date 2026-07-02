@@ -18,7 +18,7 @@ void MidiWriter::process(
 
     auto position = playHead->getPosition();
 
-    if(patternID < 0) {
+    if (patternPath.isEmpty()) {
         return;
     }
     if(!position) { return; }
@@ -72,9 +72,10 @@ void MidiWriter::process(
 }
 
 
-void MidiWriter::setPattern(int _patternID ) {
-    // patternPath = newPatternPath;
-    patternID = _patternID;
+void MidiWriter::setPattern(juce::String fullFilePath) {
+    patternPath = fullFilePath;
+    juce::String message  = "full file path: " + fullFilePath;
+    logger.write(message);
     events = fetcher.getPattern(patternPath);
 
 

@@ -25,11 +25,19 @@ MyMidiWriter2AudioProcessor::MyMidiWriter2AudioProcessor()
 #endif
 {
 
-    // instantiate here
-    patternID = 1;          // default pattern
-    midiWriter.setPattern(patternID);
     juce::File patternFolder("/Users/adamconn/dsp/songs/songA/tracks");
     patternFetcher.setDirectory(patternFolder);
+
+    // Pick the default pattern
+    const auto& patterns = patternFetcher.getAvailablePatterns();
+
+    if (!patterns.empty())
+    {
+        patternID = patterns.front().id;
+        patternPath = patterns.front().fullPath;
+
+        midiWriter.setPattern(patternPath);
+    }
 }
 
 MyMidiWriter2AudioProcessor::~MyMidiWriter2AudioProcessor()
@@ -221,19 +229,34 @@ void MyMidiWriter2AudioProcessor::getStateInformation (juce::MemoryBlock& destDa
 {
     juce::MemoryOutputStream stream(destData, false);
 
-    stream.writeInt(patternID);
+    stream.writeString(patternPath);
+    
 }
 
 // NOTE TO SELF: setState gets the state - getState sets the state. No joke.
-void MyMidiWriter2AudioProcessor::setStateInformation (const void* data, int sizeInBytes)
+void MyMidiWriter2AudioProcessor::setStateInformation(
+    const void* data,
+    int sizeInBytes)
 {
     juce::MemoryInputStream stream(data,
                                    static_cast<size_t>(sizeInBytes),
                                    false);
 
-    patternID = stream.readInt();
+    patternPath = stream.readString();
 
-    midiWriter.setPattern(patternID);
+    patternID = 0;
+
+    for (const auto& pattern : patternFetcher.getAvailablePatterns())
+    {
+        if (pattern.fullPath == patternPath)
+        {
+            patternID = pattern.id;
+            break;
+        }
+    }
+
+    if (!patternPath.isEmpty())
+        midiWriter.setPattern(patternPath);
 }
 juce::AudioProcessorEditor* MyMidiWriter2AudioProcessor::createEditor()
 {
@@ -257,19 +280,24 @@ juce::AudioProcessorEditor* MyMidiWriter2AudioProcessor::createEditor()
 //     history.save(juce::var(obj));
 // }
 
-void MyMidiWriter2AudioProcessor::setPattern(int id)
+void MyMidiWriter2AudioProcessor::setPattern(int id, juce::String fullFilePath)
 {
     patternID = id;
+    patternPath = fullFilePath;
 
-    midiWriter.setPattern(patternID);
+    midiWriter.setPattern(patternPath);
 
     juce::DynamicObject::Ptr obj = new juce::DynamicObject();
-    obj->setProperty("selectedPattern", patternID);
+    obj->setProperty("selectedPattern", patternPath);
 
 
 }
 
-void MyMidiWriter2AudioProcessor::reload() {
+void MyMidiWriter2AudioProcessor::reload()
+{
+    juce::File patternFolder("/Users/adamconn/dsp/songs/songA/tracks");
+    patternFetcher.setDirectory(patternFolder);
+
     midiWriter.reload();
 }
 

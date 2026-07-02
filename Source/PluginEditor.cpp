@@ -69,7 +69,13 @@ void MyMidiWriter2AudioProcessorEditor::comboBoxChanged(
         return;
 
     int selected = patternSelect.getSelectedId();
-    audioProcessor.setPattern(selected);
 
-    // DBG("Pattern selected: " << selected);
+    for (const auto& pattern : audioProcessor.getPatterns())
+    {
+        if (pattern.id == selected)
+        {
+            audioProcessor.setPattern(pattern.id, pattern.fullPath);
+            break;
+        }
+    }
 }
