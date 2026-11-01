@@ -145,78 +145,39 @@ bool MyMidiWriter2AudioProcessor::isBusesLayoutSupported (const BusesLayout& lay
 }
 #endif
 
-void MyMidiWriter2AudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
-{
+void MyMidiWriter2AudioProcessor::processBlock(
+    juce::AudioBuffer<float>& buffer,
+    juce::MidiBuffer& midiMessages
+) {
     juce::ScopedNoDenormals noDenormals;
-    auto totalNumInputChannels  = getTotalNumInputChannels();
-    auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-    // In case we have more outputs than inputs, this code clears any output
-    // channels that didn't contain input data, (because these aren't
-    // guaranteed to be empty - they may contain garbage).
-    // This is here to avoid people getting screaming feedback
-    // when they first compile a plugin, but obviously you don't need to keep
-    // this code if your algorithm always overwrites all the output channels.
-    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-        buffer.clear (i, 0, buffer.getNumSamples());
+    const auto totalNumInputChannels =
+        getTotalNumInputChannels();
 
-    // This is the place where you'd normally do the guts of your plugin's
-    // audio processing...
-    // Make sure to reset the state if your inner loop is processing
-    // the samples and the outer loop is handling the channels.
-    // Alternatively, you can process the samples with the channels
-    // interleaved by keeping the same state.
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        auto* channelData = buffer.getWritePointer (channel);
+    const auto totalNumOutputChannels =
+        getTotalNumOutputChannels();
 
-        // ..do something to the data...
+    // Clear unused output channels.
+    for (int channel = totalNumInputChannels;
+         channel < totalNumOutputChannels;
+         ++channel) {
+
+        buffer.clear(
+            channel,
+            0,
+            buffer.getNumSamples()
+        );
     }
+
+    // This plugin generates MIDI rather than passing incoming MIDI through.
     midiMessages.clear();
 
-    static bool sent = false;
-
-    // EMIT THE EVENTS HERE
     midiWriter.process(
         getPlayHead(),
-        midiMessages
+        midiMessages,
+        buffer.getNumSamples(),
+        getSampleRate()
     );
-
-    if (true && !sent)
-    {
-        midiMessages.addEvent(
-            juce::MidiMessage::noteOn(1, 60, (juce::uint8)100),
-            0);
-
-        midiMessages.addEvent(
-            juce::MidiMessage::noteOff(1, 60),
-            480);
-
-        sent = true;
-    }
-    /*=========================================================================
-    ===========================================================================
-    
-    SEND A SINGLE NOTE LOGIC - KEEP FOR DEBUGGING
-    midiMessages.clear();
-
-    static bool sent = false;
-
-    if (!sent)
-    {
-        midiMessages.addEvent(
-            juce::MidiMessage::noteOn(1, 60, (juce::uint8)100),
-            0);
-
-        midiMessages.addEvent(
-            juce::MidiMessage::noteOff(1, 60),
-            480);
-
-        sent = true;
-    }
-    ---------------------------------------------------------------------------
-    ===========================================================================
-    */
 }
 
 //==============================================================================

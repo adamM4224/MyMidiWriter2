@@ -8,8 +8,10 @@ class MidiWriter {
     public:
         MidiWriter(PatternFetcher& fetcher);
         void process(
-            juce::AudioPlayHead* playHead, 
-            juce::MidiBuffer& midiMessage
+            juce::AudioPlayHead* playHead,
+            juce::MidiBuffer& midiMessages,
+            int blockSize,
+            double sampleRate
         );
         void emitEvent(const MidiEvent& event, juce::MidiBuffer& midiMessages);
         void setPattern(juce::String fullFilePath);
@@ -23,6 +25,7 @@ class MidiWriter {
         juce::String patternPath;
         double lastPPQ = 0.0;
         bool seen = false;
+        bool wasPlaying = false;
         
 
         std::vector<MidiEvent> events;
