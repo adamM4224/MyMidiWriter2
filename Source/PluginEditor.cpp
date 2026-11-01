@@ -58,7 +58,6 @@ void MyMidiWriter2AudioProcessorEditor::resized()
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
     patternSelect.setBounds(20, 20, 150, 30);
-
     reloadButton.setBounds(20, 50, 100, 30);
 }
 
